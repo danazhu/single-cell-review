@@ -1,14 +1,37 @@
-# Argument errors (optional)
-p1 <- c(0, 1, 3, 4, 5, 2, 5, 5, 5)
-p2 <- c(0, 1, 3, 4, 5, 2, 5, 3, 4)
-RI <- compute_ARI(p1, p2)
+# Read in ground truth tables of clusters
+library(rhdf5)
+y_100 = h5read("A_samples.mat", "y_100") 
+y_1k = h5read("A_samples.mat", "y_1k")
+
+# Sample: Test Monocle 100 result
+p1 <- read.delim("single-cell-review/PBMC/Monocle/monocle_output_100_1.txt", header = TRUE, sep = ",")
+p1 <- p1$x
+p1 <- matrix(p1, nrow = length(p1), ncol = 1)
+
+RI_100 <- compute_ARI(p1, y_100)
+
+# Sample: Test Monocle 1k result
+p2 <- read.delim("single-cell-review/PBMC/Monocle/monocle_output_1k_4.txt", header = TRUE, sep = ",")
+p2 <- p2$x
+p2 <- matrix(p2, nrow = length(p2), ncol = 1)
+RI_1k <- compute_ARI(p2, y_1k)
 
 # Manually compute adjusted RI
 compute_ARI <- function(p1, p2) {
   # Find unique partition lengths (number of clusters)
   N <- length(p1) # length of partition set
-  N1 <- max(unique(p1))
-  N2 <- max(unique(p2))
+  # Mimic the unique() function in MATLAB
+  # Find set of unique, sorted values
+  p1_unique_sort <- sort(unique(p1))
+  p2_unique_sort <- sort(unique(p2))
+  # Convert p1, p2 values into indexes of unique sort
+  p1_indices <- apply(p1, c(1, 2), function(elt) result <- match(elt, p1_unique_sort))
+  p2_indices <- apply(p2, c(1, 2), function(elt) result <- match(elt, p2_unique_sort))
+  
+  p1 <- p1_indices
+  p2 <- p2_indices
+  N1 <- max(p1)
+  N2 <- max(p2)
   
   n <- matrix(-1, nrow = N1, ncol = N2)
   # Create n)i,j the match matrix
