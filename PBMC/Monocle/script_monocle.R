@@ -1,8 +1,9 @@
+BiocManager::install("monocle")
 library(monocle)
 
 tt = c()
 
-dataset <- read.table('data_cidr/A_100.txt')
+dataset <- read.table('A_100.txt')
 dataset <- as.matrix(dataset)
 
 start_time <- Sys.time()
