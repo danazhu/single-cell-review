@@ -1,5 +1,5 @@
 #!/usr/bin/env Rscript
-setwd("~/Desktop/GroupProject/single-cell-review/PBMC/pcaReduce")
+#setwd("~/Desktop/GroupProject/single-cell-review/PBMC/pcaReduce")
 library("pcaReduce")
 
 # Source ARI function
@@ -34,12 +34,13 @@ for (ds in DATASETS) {
     t = end_time - start_time 
     
     # calculate ari values
-    c <- matrix(Output_S[[1]], nrow = length(Output_S[[1]]), ncol = 1)
+    test_matrix <- matrix(Output_S[[1]][,1], nrow = length(Output_S[[1]][,1]), ncol = 1)
+    
     if (ds == "100") {
-      current_ARI <- compute_ARI(c, y_100)
+      current_ARI <- compute_ARI(test_matrix, y_100)
     }
     else if (ds == "1k") {
-      current_ARI <- compute_ARI(c, y_1k)
+      current_ARI <- compute_ARI(test_matrix, y_1k)
     }
     
     # record time spent
