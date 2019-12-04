@@ -8,10 +8,11 @@ source("../adjusted_rand_index.R")
 library(rhdf5)
 y_100 = h5read("../A_samples.mat", "y_100") 
 y_1k = h5read("../A_samples.mat", "y_1k")
+y_10k = h5read("../A_samples.mat", "y_10k")
 
 tt = c()
 
-DATASETS <- c("100", "1k")
+DATASETS <- c("100", "1k", "10k")
 TRIALS <- c(1:5)
 
 # in case ari and time output file exists already
@@ -41,6 +42,9 @@ for (ds in DATASETS) {
     }
     else if (ds == "1k") {
       current_ARI <- compute_ARI(test_matrix, y_1k)
+    }
+    else { #10k sample
+      current_ARI <- compute_ARI(test_matrix, y_10k)
     }
     
     # record time spent
