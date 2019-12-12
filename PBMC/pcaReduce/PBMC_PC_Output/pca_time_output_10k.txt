@@ -1,0 +1,8 @@
+"Time values for 10k sample size:"
+"Time values for 10k sample size:"
+1.86521211167177
+"Time values for 10k sample size:"
+1.79303510109584
+1.74382303946548
+1.81467080752055
+1.83724238693714
